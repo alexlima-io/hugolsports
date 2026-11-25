@@ -1,0 +1,9 @@
+{
+  "name": "hugol-loja",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Loja Hugol: site estático + funções (publicar alterações, carregar configuração, estatísticas).",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}
