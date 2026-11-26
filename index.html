@@ -6,7 +6,7 @@
 <title data-h>Hugol – Camisas de Time</title>
 <meta data-h name="theme-color" content="#000000">
 <meta name="description" content="Camisas de time em malha peruana. Escolha e peça direto pelo WhatsApp.">
-<meta property="og:type" content="website"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Hugol – Camisas de Time"><meta property="og:description" content="Camisas de time em malha peruana. Escolha e peça direto pelo WhatsApp."><meta property="og:image" content="https://helpful-mooncake-b47d2b.netlify.app/og-hugol.jpg"><meta property="og:image:secure_url" content="https://helpful-mooncake-b47d2b.netlify.app/og-hugol.jpg"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Hugol - Camisas de time"><meta property="og:url" content="https://helpful-mooncake-b47d2b.netlify.app/"><meta name="twitter:card" content="summary_large_image">
+<meta property="og:type" content="website"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Hugol – Camisas de Time"><meta property="og:description" content="Camisas de time em malha peruana. Escolha e peça direto pelo WhatsApp."><meta property="og:image" content="https://hugolstore.netlify.app/og-hugol.jpg"><meta property="og:image:secure_url" content="https://hugolstore.netlify.app/og-hugol.jpg"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Hugol - Camisas de time"><meta property="og:url" content="https://hugolstore.netlify.app/"><meta name="twitter:card" content="summary_large_image">
 <link data-h rel="manifest" href="manifest.webmanifest">
 <link data-h rel="icon" href="icon-192.png">
 <link data-h rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -554,8 +554,8 @@ const PT={
  vip:{n:"Lista VIP",ic:"👑",d:"Cadastro para receber lançamentos antes de todos.",def:{freq:"day",title:"Entre na Lista VIP",text:"Receba lançamentos e ofertas antes de todo mundo.",btn:"Entrar na lista"},f:[fT,fX,fB]},
  review:{n:"Avaliação do atendimento",ic:"💬",d:"Aparece depois que o cliente envia o pedido, pedindo nota e comentário.",def:{freq:"session",title:"Como foi sua experiência?",text:"Conte para a gente o que achou.",link:""},f:[fT,fX,["link","Link para avaliar (Google, Instagram…) — opcional"]]}
 };
-function defS(){const pops={};for(const k in PT)pops[k]={on:k==="welcome",...PT[k].def};return{ts:0,cfg:{whats:"5500000000000"},products:DEFP.map(p=>({...p})),pops}}
-function mergeS(a,b){if(!b)return a;const o={...a,ts:b.ts||0,cfg:{...a.cfg,...(b.cfg||{})}};if(Array.isArray(b.products))o.products=b.products.some(p=>DEFIDS.has(p.id))?b.products:a.products;o.pops={...a.pops};for(const k in(b.pops||{}))if(PT[k])o.pops[k]={...a.pops[k],...b.pops[k]};return o}
+function defS(){const pops={};for(const k in PT)pops[k]={on:k==="welcome",...PT[k].def};return{ts:0,cfg:{whats:"5511965814012"},products:DEFP.map(p=>({...p})),pops}}
+function mergeS(a,b){if(!b)return a;const o={...a,ts:b.ts||0,cfg:{...a.cfg,...(b.cfg||{})}};if(!/^\d{10,15}$/.test(String(o.cfg.whats))||String(o.cfg.whats)==="5500000000000")o.cfg.whats=a.cfg.whats;if(Array.isArray(b.products))o.products=b.products.some(p=>DEFIDS.has(p.id))?b.products:a.products;o.pops={...a.pops};for(const k in(b.pops||{}))if(PT[k])o.pops[k]={...a.pops[k],...b.pops[k]};return o}
 const LOC=store.get("hugol_cfg",null);
 let S=mergeS(defS(),(LOC&&(LOC.ts||0)>((EMBED&&EMBED.ts)||0))?LOC:EMBED),P=[];
 const resImg=u=>u&&u[0]==="@"?(DEFIMG[u.slice(1)]||""):u;
@@ -581,10 +581,11 @@ function grid(){
  let l=P.filter(x=>(cat==="Todas"||x.c===cat)&&(!szf||szOf(x).includes(szf))&&(!onlyFav||favs.includes(x.id))&&(!q||nz(x.n+" "+x.c).includes(q)));
  if(sort==="lo")l.sort((a,b)=>a.p-b.p);else if(sort==="hi")l.sort((a,b)=>b.p-a.p);else if(sort==="az")l.sort((a,b)=>a.n.localeCompare(b.n,"pt-BR"));else if(sort==="za")l.sort((a,b)=>b.n.localeCompare(a.n,"pt-BR"));
  $("#count").textContent=l.length+(l.length===1?" peça":" peças");
- $("#grid").innerHTML=l.length?l.map((p,i)=>`<article class="pc${p.out?" out":""}" style="--d:${Math.min(i,10)*40}ms">
+ const bar=l.length&&(onlyFav||cat!=="Todas")?`<div style="grid-column:1/-1"><button class="btn bg2" data-gask style="width:100%">${onlyFav?"Consultar minhas favoritas no WhatsApp":"Consultar coleção "+esc(cat)+" no WhatsApp"}</button></div>`:"";
+ $("#grid").innerHTML=bar+(l.length?l.map((p,i)=>`<article class="pc${p.out?" out":""}" style="--d:${Math.min(i,10)*40}ms">
   <span class="tg">${esc(p.c)}</span>${p.out?`<span class="tg tgo tz">Esgotado</span>`:szf?`<span class="tg tz">Tam. ${szf}</span>`:""}
   <button class="hh" data-f="${p.id}" aria-pressed="${favs.includes(p.id)}" aria-label="Favoritar">${HEART}</button>
-  <div class="ph" data-o="${p.id}"><img src="${p.img}" alt="${esc(p.n)}" loading="lazy" decoding="async"></div></article>`).join(""):`<div class="em">Nenhuma peça encontrada.${onlyFav?" Toque no coração para salvar favoritas.":""}</div>`;
+  <div class="ph" data-o="${p.id}"><img src="${p.img}" alt="${esc(p.n)}" loading="lazy" decoding="async"></div></article>`).join(""):`<div class="em">Nenhuma peça encontrada.${onlyFav?" Toque no coração para salvar favoritas.":""}</div>`);
 }
 function sheet(html,keep){const s=$("#sheet"),y=s.scrollTop;$("#bg").classList.remove("pgm");s.innerHTML=html;if(keep)s.scrollTop=y;$("#bg").classList.add("on");document.body.style.overflow="hidden"}
 function closeSheet(){$("#bg").classList.remove("on","pgm");document.body.style.overflow=""}
@@ -597,15 +598,16 @@ function product(id){
   <div class="lb">Tamanho</div><div class="rw">${av.map(s=>`<button class="sz" aria-pressed="${s===sz}" data-sz="${s}">${s}</button>`).join("")}</div>
   <div class="tip">Dúvida no tamanho? <button data-ask>Consulte pelo WhatsApp</button></div>
   <div class="lb">Quantidade</div><div class="qt"><button data-q="-1" aria-label="Menos">−</button><span>${qty}</span><button data-q="1" aria-label="Mais">+</button></div>
-  <div class="ct2" style="grid-template-columns:1fr">${p.out?`<div class="tip" style="margin:0 0 10px"><b>Esgotado no momento.</b></div><button class="btn bg1" data-ask2>Avisar quando chegar</button>`:`<button class="btn bg1" data-add>Add ao carrinho${showP()?" · "+money(p.p*qty):""}</button>`}</div>`,!first);$("#bg").classList.add("pgm");first=false};
+  <div class="ct2" style="grid-template-columns:1fr">${p.out?`<div class="tip" style="margin:0 0 10px"><b>Esgotado no momento.</b></div><button class="btn bg1" data-ask2>Avisar quando chegar</button>`:`<button class="btn bg1" data-add>Add ao carrinho${showP()?" · "+money(p.p*qty):""}</button><button class="btn bg2" data-asksz>Consultar tamanho ${sz} no WhatsApp</button>`}</div>`,!first);$("#bg").classList.add("pgm");first=false};
  draw();
  $("#sheet").onclick=e=>{const t=e.target.closest("button");if(!t)return;
   if(t.dataset.sz){sz=t.dataset.sz;draw()}
   else if(t.dataset.q){qty=Math.max(1,Math.min(20,qty+ +t.dataset.q));draw()}
   else if(t.hasAttribute("data-x"))closeSheet();
   else if(t.hasAttribute("data-cart"))cartView();
-  else if(t.hasAttribute("data-ask"))wa(`Olá, Hugol! Quero consultar a ${p.n}${showP()?" ("+money(p.p)+")":""}, tamanho ${sz}. Tem disponível?`);
-  else if(t.hasAttribute("data-ask2"))wa(`Olá, Hugol! A ${p.n} está esgotada. Quero ser avisado quando chegar (tamanho ${sz}).`);
+  else if(t.hasAttribute("data-asksz"))wa(`Olá! Tenho interesse na camisa ${p.n}, tamanho ${sz}. Poderiam me informar a disponibilidade, o valor e o prazo de entrega?`);
+  else if(t.hasAttribute("data-ask"))wa(`Olá! Estou interessado(a) na camisa ${p.n} e gostaria de uma orientação sobre o melhor tamanho. Posso enviar minha altura e meu peso?`);
+  else if(t.hasAttribute("data-ask2"))wa(`Olá! A camisa ${p.n} está esgotada. Gostaria de ser avisado(a) quando chegar o tamanho ${sz}.`);
    else if(t.hasAttribute("data-add")){addCart(p.id,sz,qty);closeSheet();toast("Adicionado ao carrinho")}};
 }
 // ====== instalar (PWA) ======
@@ -659,7 +661,7 @@ const RN={
  featured:c=>{const p=P.find(x=>x.id==c.pid)||P.find(x=>/novo/i.test(x.tag||""))||P[0];if(!p)return pcard(c,"⭐","");
   return pcard(c,"⭐",`<div class="fph"><img src="${p.img}" alt=""></div><div class="fn"><b>${esc(p.n)}</b>${showP()?`<span>${money(p.p)}</span>`:""}</div>`+pb(`<button class="btn bg2" data-pa="askp" data-id="${p.id}">Consultar</button>`,`<button class="btn bg1" data-pa="prod" data-id="${p.id}">Ver camisa</button>`))},
  bundle:c=>pcard(c,"🧩",`<div class="kit"><div><b>2 camisas</b><span>−${+c.pct2}%</span></div><div><b>3 ou mais</b><span>−${+c.pct3}%</span></div></div><div class="pnote">O desconto é aplicado automaticamente no carrinho.</div>`+pb(`<button class="btn bg1" data-pa="shop">Escolher camisas</button>`)),
- custom:c=>pcard(c,"🎨",pb(`<button class="btn bg1" data-pa="wa" data-msg="Olá, Hugol! Quero pedir uma camisa personalizada (sob encomenda). Pode me passar um orçamento?">${esc(c.btn||"Pedir orçamento")}</button>`,`<button class="btn bg2" data-pc>Agora não</button>`)),
+ custom:c=>pcard(c,"🎨",pb(`<button class="btn bg1" data-pa="wa" data-msg="Olá! Tenho interesse em uma camisa personalizada, com nome e número. Poderiam me explicar como funciona e quais são os valores?">${esc(c.btn||"Pedir orçamento")}</button>`,`<button class="btn bg2" data-pc>Agora não</button>`)),
  countdown:c=>pcard(c,"⏳",`<div class="cd" id="cd">--:--:--</div>`+(c.code?cpnBox(c)+cpnBtn(c):pb(`<button class="btn bg1" data-pa="shop">Ver coleção</button>`))),
  review:c=>pcard(c,"💬",`<div class="stars" id="stars">${[1,2,3,4,5].map(n=>`<button data-pa="star" data-n="${n}" aria-label="${n} estrelas">★</button>`).join("")}</div><textarea class="pin" id="rv_t" rows="3" placeholder="Conte como foi (opcional)"></textarea>`+pb(`<button class="btn bg1" data-pa="rev">Enviar avaliação</button>`,c.link?`<a class="btn bg2" id="rv_l" href="${esc(c.link)}" target="_blank" rel="noopener" hidden>Avaliar também online</a>`:"")),
  wheel:c=>{const pr=parsePrizes(c.prizes);if(pr.length<2)return pcard(c,"🎡",`<div class="pnote">Cadastre pelo menos 2 prêmios no painel.</div>`);const n=pr.length,seg=360/n;
@@ -691,7 +693,7 @@ POP.onclick=e=>{const pv=POP.dataset.pv==="1";if(e.target.closest("[data-pc]")){
  else if(a==="coupon"){activate(b.dataset.code,pv);closePop()}
  else if(a==="shop"){closePop();goV()}
  else if(a==="prod"){closePop();product(+b.dataset.id)}
- else if(a==="askp"){const p=P.find(x=>x.id==b.dataset.id);if(!p)return;if(pv)toast("Prévia: abriria o WhatsApp");else wa(`Olá, Hugol! Quero consultar a ${p.n}${showP()?" ("+money(p.p)+")":""}. Tem disponível?`)}
+ else if(a==="askp"){const p=P.find(x=>x.id==b.dataset.id);if(!p)return;if(pv)toast("Prévia: abriria o WhatsApp");else wa(`Olá! Tenho interesse na camisa ${p.n}. Poderiam me informar a disponibilidade, o valor e o prazo de entrega?`)}
  else if(a==="wa"){if(pv)toast("Prévia: abriria o WhatsApp");else wa(b.dataset.msg)}
  else if(a==="later"){closePop();admHide()}
  else if(a==="pubnow"){closePop();publishAll()}
@@ -733,7 +735,7 @@ function cartView(){
   else if(t.hasAttribute("data-send")){
    const sub=cart.reduce((a,i)=>a+P.find(x=>x.id===i.id).p*i.q,0),d=calcDisc(sub,cart.reduce((a,i)=>a+i.q,0));
    const L=cart.map(i=>{const p=P.find(x=>x.id===i.id);return `• ${i.q}x ${p.n} (${i.sz})${showP()?" — "+money(p.p*i.q):""}`}).join("\n");
-   wa(`Olá, Hugol! Quero fazer este pedido:\n\n${L}${showP()?`\n\nSubtotal: ${money(sub)}${d.pct?`\n${d.label} (−${d.pct}%): −${money(d.val)}`:""}\nTotal: ${money(sub-d.val)}`:(d.pct?`\n\nDesconto: ${d.label} (−${d.pct}%)`:"")}`);
+   wa(`Olá, Hugol! Gostaria de fazer o seguinte pedido:\n\n${L}${showP()?`\n\nSubtotal: ${money(sub)}${d.pct?`\n${d.label} (−${d.pct}%): −${money(d.val)}`:""}\nTotal: ${money(sub-d.val)}`:(d.pct?`\n\nDesconto: ${d.label} (−${d.pct}%)`:"")}\n\nPoderiam confirmar a disponibilidade, a forma de pagamento e o prazo de entrega?`);
    setTimeout(()=>{if(S.pops.review.on&&frOK("review")&&!popOpen())showPop("review")},3000)}};
 }
 // ----- Proprietário: acesso
@@ -972,14 +974,24 @@ $("#grid").onclick=e=>{
  const f=e.target.closest("[data-f]");
  if(f){const id=+f.dataset.f;favs=favs.includes(id)?favs.filter(x=>x!==id):[...favs,id];store.set("favs",favs);grid();return}
  const a=e.target.closest("[data-ask]");
- if(a){const p=P.find(x=>x.id===+a.dataset.ask);wa(`Olá, Hugol! Quero consultar a ${p.n}${showP()?" ("+money(p.p)+")":""}. Tem disponível?`);return}
+ if(a){const p=P.find(x=>x.id===+a.dataset.ask);wa(`Olá! Tenho interesse na camisa ${p.n}. Poderiam me informar a disponibilidade, o valor e o prazo de entrega?`);return}
+ if(e.target.closest("[data-gask]")){
+  if(onlyFav){const L=P.filter(x=>favs.includes(x.id)).slice(0,12).map(x=>"• "+x.n).join("\n");wa(`Olá! Salvei algumas camisas nos favoritos e gostaria de saber mais sobre:\n${L}\n\nPoderiam me passar disponibilidade, valores e prazo de entrega?`)}
+  else wa(`Olá! Estou vendo a coleção ${cat} e gostaria de saber quais modelos e tamanhos estão disponíveis.`);
+  return}
  const o=e.target.closest("[data-o]");if(o)product(+o.dataset.o)};
 $("#q").oninput=e=>{qry=e.target.value;grid()};
 $("#srt").onchange=e=>{sort=e.target.value;grid()};
 $("#favBtn").onclick=e=>{onlyFav=!onlyFav;e.currentTarget.setAttribute("aria-pressed",onlyFav);grid()};
 $("#cartBtn").onclick=cartView;
-const hello=()=>wa("Olá, Hugol! Vim pelo catálogo e tenho interesse nas camisas de time. Gostaria de saber mais sobre os modelos disponíveis, tamanhos, valores e formas de pagamento e entrega.");
-$("#fab").onclick=hello;$("#heroAsk").onclick=hello;$("#ftAsk").onclick=hello;
+const MSG={
+ topo:"Olá! Vi a coleção de camisas de time em malha peruana da Hugol e gostaria de saber mais. Poderiam me ajudar?",
+ geral:"Olá, Hugol! Tenho interesse em conhecer as camisas de time. Poderiam me atender?",
+ rodape:"Olá, Hugol! Vim pelo catálogo e gostaria de saber mais sobre as camisas, tamanhos, valores e prazo de entrega. Poderiam me atender?",
+ menu:"Olá, Hugol! Abri o menu da loja e tenho interesse nas camisas de time. Poderiam me atender?"
+};
+const hello=()=>wa(MSG.geral);
+$("#fab").onclick=hello;$("#heroAsk").onclick=()=>wa(MSG.topo);$("#ftAsk").onclick=()=>wa(MSG.rodape);
 $("#ftOwner").onclick=ownerOpen;
 $("#instBtn").onclick=$("#ftInst").onclick=()=>inst.click();
 const noInst=()=>{$("#instBar").hidden=true;$("#ftInst").hidden=true};
@@ -1007,7 +1019,7 @@ menu.onclick=e=>{
  else if(g==="cart")cartView();
  else if(g==="theme"){setTheme(cur==="light"?"dark":"light");toast(cur==="light"?"Visualização clara ativada":"Visualização escura ativada")}
  else if(g==="install")inst.click();
- else if(g==="wa")hello()};
+ else if(g==="wa")wa(MSG.menu)};
 $("#menuBtn").onclick=()=>menuOpen(true);
 $("#thBtn").onclick=()=>{setTheme(cur==="light"?"dark":"light");toast(cur==="light"?"Visualização clara ativada":"Visualização escura ativada")};
 document.addEventListener("keydown",e=>{if(e.key==="Escape")menuOpen(false)});
